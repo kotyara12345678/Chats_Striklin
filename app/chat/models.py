@@ -1,0 +1,13 @@
+from sqlalchemy import Integer, ForeignKey, Text
+from sqlalchemy.orm import Mapped, mapped_column
+from app.database import Base
+
+
+class Message(Base):
+    __tablename__ = 'messages'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    sender_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
+    receiver_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
+    content: Mapped[Text] = mapped_column(Text)
+
