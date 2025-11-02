@@ -1,17 +1,8 @@
-from sqlalchemy import func
-from datetime import datetime
-from sqlalchemy.orm import mapped_column, DeclarativeBase, Mapped
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker, AsyncAttrs
+from motor.motor_asyncio import AsyncIOMotorClient
 
-database_url = "sqlite+aiosqlite:///db.sqlite3"
-engine = create_async_engine(url=database_url)
-async_session = async_sessionmaker(engine, class_=AsyncSession)
+MONGO_URL = "mongodb://mongo_db:27017"
+DB_NAME = "fastapi_db"
 
-class Base(AsyncAttrs, DeclarativeBase):
-    __abstract__ = True
-    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
-
-
-def async_session_maker():
-    return None
+client = AsyncIOMotorClient(MONGO_URL)
+database = client[DB_NAME]
+users_collection = database["users"]

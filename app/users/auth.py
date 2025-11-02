@@ -24,8 +24,10 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-async def authenticate_user(email: EmailStr, password: str):
+async def authenticate_user(email: str, password: str):
     user = await UserDAO.find_one_or_none(email=email)
-    if not user or not verify_password(plain_password=password, hashed_password=user.hashed_password):
+    if not user:
+        return None
+    if not UserDAO.verify_password(password, user['hashed_password']):
         return None
     return user
