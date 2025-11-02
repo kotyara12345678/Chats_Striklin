@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Переключение вкладок
     const tabs = document.querySelectorAll('.tab');
     const forms = document.querySelectorAll('.form');
 
@@ -9,11 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
             forms.forEach(f => f.classList.remove('active'));
 
             tab.classList.add('active');
-            document.getElementById(${tab.dataset.tab}Form).classList.add('active');
+            const form = document.getElementById(`${tab.dataset.tab}Form`);
+            if (form) form.classList.add('active');
         });
     });
 
-    // Проверка заполненности полей
     const validateForm = fields => fields.every(field => field.trim() !== '');
 
     const sendRequest = async (url, data) => {
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Кнопки
+    // Кнопка входа
     document.getElementById('loginButton').addEventListener('click', e => {
         e.preventDefault();
         const email = document.querySelector('#loginForm input[type="email"]').value;
